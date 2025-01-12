@@ -3,9 +3,11 @@ class PatientsController < ApplicationController
   end
 
   def create
-    if patient
+    if patient && patient_eligible?
       add_patient_to_session
       redirect_to new_questionnaire_path, notice: "You have been successfully authenticated"
+    elsif patient && !patient_eligible?
+      redirect_to root_path, alert: "You are not eligble for this service"
     else
       respond_to do |format|
         format.html { render :new, alert: "Your details could not be found" }
@@ -28,4 +30,7 @@ class PatientsController < ApplicationController
     session[:patient] = patient
   end
 
+  def patient_eligible?
+    patient['born'] < 16.years.ago
+  end
 end
