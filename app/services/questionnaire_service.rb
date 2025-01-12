@@ -40,7 +40,7 @@ class QuestionnaireService
   private
 
   def question_by_id(question_id)
-    QUESTIONS.find { |q| q[:id] == question_id }
+    QUESTIONS.find { |q| q[:id] == question_id.to_i }
   end
 
   def score_by_age(question)

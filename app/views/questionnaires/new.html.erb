@@ -1,5 +1,25 @@
 <section class="section">
   <div class="container is-max-tablet">
     <h1 class="title">Please answer the following questions</h1>
+
+    <%= form_with url: questionnaires_path, method: :post do |form| %>
+      <% @questions.each do |question| %>
+        <div class="field">
+          <label class="label"><%= question[:question] %></label>
+          <div class="control">
+            <%= form.hidden_field "answers[][question_id]", value: question[:id] %>
+            <div class="select">
+              <%= form.select "answers[][value]", options_for_select([['Yes', 'yes'], ['No', 'no']]), {}, id: "select-#{question[:id]}" %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
+      <div class="field">
+        <div class="control">
+          <%= form.submit "Submit", class: "button is-primary" %>
+        </div>
+      </div>
+    <% end %>
   </div>
 </section>
