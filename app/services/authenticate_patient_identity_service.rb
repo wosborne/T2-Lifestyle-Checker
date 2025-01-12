@@ -12,11 +12,8 @@ class AuthenticatePatientIdentityService < ApplicationService
   end
 
   def call
-    response = patient_authentication_request
-
-    return false if response.code == 404
-
-    patient_data = JSON.parse(response.body)
+    return false if response.code == 404 
+    return false unless patient_data_valid?
 
     patient_data || false
   end
@@ -31,10 +28,20 @@ class AuthenticatePatientIdentityService < ApplicationService
     request = Net::HTTP::Get.new(uri)
     request['Ocp-Apim-Subscription-Key'] = SUBSCRIPTION_KEY
 
-    response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
+    Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
       http.request(request)
     end
+  end
 
-    response
+  def response
+    @response ||= patient_authentication_request
+  end
+
+  def patient_data
+    @patient_data ||= JSON.parse(response.body)
+  end
+
+  def patient_data_valid?
+    patient_data['name'] == @surname && patient_data['born'] == @date_of_birth && patient_data['nhsNumber'] == @nhs_number
   end
 end
