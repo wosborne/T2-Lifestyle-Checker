@@ -14,6 +14,7 @@ class PatientsController < ApplicationController
       redirect_to root_path, alert: "You are not eligble for this service"
 
     else
+      remove_patient_from_session
       respond_to do |format|
         format.html { render :new, alert: "Your details could not be found" }
         format.turbo_stream { flash.now[:alert] = "Your details could not be found" }
