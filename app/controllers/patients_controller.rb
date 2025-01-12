@@ -1,4 +1,6 @@
 class PatientsController < ApplicationController
+  skip_before_action :authenticate_patient_session
+  
   def new
   end
 
@@ -6,9 +8,12 @@ class PatientsController < ApplicationController
     if patient && patient_eligible?
       add_patient_to_session
       redirect_to new_questionnaire_path, notice: "You have been successfully authenticated"
+
     elsif patient && !patient_eligible?
       redirect_to root_path, alert: "You are not eligble for this service"
+
     else
+      remove_patient_from_session
       respond_to do |format|
         format.html { render :new, alert: "Your details could not be found" }
         format.turbo_stream { flash.now[:alert] = "Your details could not be found" }
@@ -28,6 +33,10 @@ class PatientsController < ApplicationController
 
   def add_patient_to_session
     session[:patient] = patient
+  end
+
+  def remove_patient_from_session
+    session.delete(:patient)
   end
 
   def patient_eligible?
