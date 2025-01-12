@@ -8,14 +8,14 @@ class AuthenticatePatientIdentityService < ApplicationService
   def initialize(params)
     @nhs_number = params[:nhs_number]
     @surname = params[:surname]
-    @date_of_birth = params[:date_of_birth]
+    @date_of_birth = format_date(params[:date_of_birth])
   end
 
   def call
     return false if response.code == 404 
     return false unless patient_data_valid?
 
-    patient_data || false
+    patient_data
   end
 
   private
@@ -42,6 +42,20 @@ class AuthenticatePatientIdentityService < ApplicationService
   end
 
   def patient_data_valid?
-    patient_data['name'] == @surname && patient_data['born'] == @date_of_birth && patient_data['nhsNumber'] == @nhs_number
+    patient_surname == @surname.downcase &&
+    patient_data['born'] == @date_of_birth &&
+    patient_data['nhsNumber'] == @nhs_number
+  end
+
+  def patient_surname
+    patient_data['name']&.split(',')&.first&.downcase
+  end
+
+  def format_date(date)
+    return nil if date.blank?
+
+    Date.parse(date).strftime('%d-%m-%Y')
+  rescue ArgumentError
+    nil
   end
 end

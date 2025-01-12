@@ -13,7 +13,7 @@ RSpec.describe AuthenticatePatientIdentityService do
     subject { described_class }
 
     context 'when the patient is found' do
-      let(:body) { { 'name' => surname, 'born' => dob, 'nhsNumber' => nhs_number } }
+      let(:body) { { 'name' => 'DOE, John', 'born' => '01-01-1980', 'nhsNumber' => nhs_number } }
 
       it 'returns the patients details' do
         response = OpenStruct.new(code: 200, body: body.to_json)
@@ -30,7 +30,7 @@ RSpec.describe AuthenticatePatientIdentityService do
     end
 
     context "when a patient is found but the details don't match" do
-      let(:body) { { 'name' => 'Blogs', 'born' => '1990-01-01', 'nhsNumber' => nhs_number } }
+      let(:body) { { 'name' => 'BLOGS, Joe', 'born' => '02-02-1990', 'nhsNumber' => nhs_number } }
 
       it 'returns false' do
         response = OpenStruct.new(code: 200, body: body.to_json)
@@ -41,7 +41,6 @@ RSpec.describe AuthenticatePatientIdentityService do
           surname: surname,
           date_of_birth: dob
         }
-
 
         expect(subject.call(params)).to eq false
       end
