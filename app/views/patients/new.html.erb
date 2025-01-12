@@ -1,0 +1,30 @@
+
+<section class="section">
+  <div class="container is-max-tablet">
+    <h1 class="title">Enter Your Details</h1>
+    <%= form_for :patient, url: patients_path, method: :post do |form| %>
+      <div class="field">
+        <%= form.label :nhs_number, 'NHS number', class: "label" %>
+        <div class="control">
+          <%= form.number_field :nhs_number, class: "input", placeholder: "Enter your NHS Number", required: true %>
+        </div>
+      </div>
+
+      <div class="field">
+        <%= form.label :surname, class: "label" %>
+        <div class="control">
+          <%= form.text_field :surname, class: "input", placeholder: "Enter your Surname", required: true %>
+        </div>
+      </div>
+
+      <div class="field">
+        <%= form.label :date_of_birth, class: "label" %>
+        <div class="control">
+          <%= form.date_field :date_of_birth, class: "input", required: true %>
+        </div>
+      </div>
+
+      <%= form.submit "Continue", class: "button is-link" %>
+    <% end %>
+  </div>
+</section>
