@@ -16,4 +16,9 @@ Rails.application.routes.draw do
 
   resources :patients, only: %i[new create]
   resources :questionnaires, only: %i[new create]
+  
+  namespace :admin do
+    resources :settings, only: %i[index]
+    patch "age_ranges" => "age_ranges#update"
+  end 
 end

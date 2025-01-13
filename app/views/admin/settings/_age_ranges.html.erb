@@ -1,0 +1,36 @@
+<%= form_with url: admin_age_ranges_path, method: :patch do |form| %>
+  <div class="columns">
+    <% age_ranges.each_with_index do |age_range, index| %>
+      <div class="column">
+        <div class="field">
+          <%= form.label "age_ranges[][min]", "Min" %>
+          <div class="control">
+            <%= form.number_field "age_ranges[][min]", value: age_range.min, class: "input" %>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="field">
+          <%= form.label "age_ranges[][min]", "Max" %>
+          <div class="control">
+        <%= form.number_field "age_ranges[][max]", value: age_range.max, class: "input" %>
+          </div>
+        </div>
+      </div>
+
+      <% if age_ranges.size - 1 != index %>
+        <div class="column is-narrow">
+        </div>
+      <% end %>
+
+      <%= form.hidden_field "age_ranges[][id]", value: age_range.id %>
+    <% end %>
+  </div>
+
+  <div class="field">
+    <div class="control">
+      <%= form.submit "Save Age Ranges", class: "button is-primary" %>
+    </div>
+  </div>
+<% end %>
