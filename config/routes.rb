@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resource :session
+  resources :passwords, param: :token
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -14,4 +16,10 @@ Rails.application.routes.draw do
 
   resources :patients, only: %i[new create]
   resources :questionnaires, only: %i[new create]
+  
+  namespace :admin do
+    resources :settings, only: %i[index]
+    patch "age_ranges" => "age_ranges#update"
+    patch "question_scores" => "question_scores#update"
+  end 
 end

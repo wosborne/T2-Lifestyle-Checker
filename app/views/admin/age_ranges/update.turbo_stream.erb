@@ -1,0 +1,3 @@
+<%= render_turbo_stream_flash_messages %>
+
+<%= turbo_stream.replace "age_ranges_form", partial: "admin/settings/age_ranges", locals: { age_ranges: @age_ranges } %>
