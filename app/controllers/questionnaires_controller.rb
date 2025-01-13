@@ -2,7 +2,7 @@ class QuestionnairesController < ApplicationController
   after_action :remove_patient_from_session, only: :create
 
   def new
-    @questions = QuestionnaireService::QUESTIONS
+    @questions = Question.all
   end
 
   def create
