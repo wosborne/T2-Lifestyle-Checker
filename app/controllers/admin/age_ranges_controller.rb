@@ -5,12 +5,7 @@ class Admin::AgeRangesController < Admin::AdminBaseController
       age_range.update(age_range_params.permit(:min, :max))
     end
 
-    @age_ranges = AgeRange.order(:min)
-
-    respond_to do |format|
-      format.html { redirect_to admin_settings_path, notice: "Age ranges updated successfully." }
-      format.turbo_stream { flash.now[:notice] = "Age ranges updated successfully." }
-    end
+    redirect_to admin_settings_path, notice: "Age ranges updated successfully."
   end
 
   private

@@ -13,15 +13,8 @@
 
     <div class="box">
       <h2 class="title is-4">Questions</h2>
-      <div class="content">
-        <ul>
-          <% @question.each do |question| %>
-            <li>
-              <strong>Question:</strong> <%= question.question %><br>
-              <strong>Answer:</strong> <%= question.answer %>
-            </li>
-          <% end %>
-        </ul>
+      <div id="questions_scores_form">
+        <%= render "questions", questions: @questions %>
       </div>
     </div>
   </div>

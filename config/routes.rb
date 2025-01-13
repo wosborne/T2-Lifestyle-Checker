@@ -20,5 +20,6 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :settings, only: %i[index]
     patch "age_ranges" => "age_ranges#update"
+    patch "question_scores" => "question_scores#update"
   end 
 end
