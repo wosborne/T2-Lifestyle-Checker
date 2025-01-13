@@ -1,0 +1,6 @@
+<% if flash.any? %>
+  <div class="section has-text-centered">
+    <%= tag.div(flash[:alert], class: "notification is-danger") if flash[:alert] %>
+    <%= tag.div(flash[:notice], class: "notification is-primary") if flash[:notice] %>
+  </div>
+<% end %>
